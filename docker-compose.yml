@@ -1,0 +1,17 @@
+version: '3.11'
+services:
+  web:
+    build: .
+    expose:
+      - "8000"
+    command: >
+      sh -c "python manage.py makemigrations &&
+              python manage.py migrate &&
+              python manage.py test &&
+              python manage.py import_locations &&
+              python manage.py populates_Transport &&
+              python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
